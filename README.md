@@ -27,6 +27,60 @@ already provided in this repository.
 For Windows, you need to connect to virtual machine using SSH client such as
 PuTTY manually.
 
+## Capistrano ##
+
+This repository also has integrated capistrano. 
+
+The dependencies are managed by bundler, add cookbooks' dependencies to
+Gemfile.
+
+Servers are defined in directory `servers` using DEL:
+
+```ruby
+# deploy user for capistrano
+user 'vagrant'
+# server IP or domain
+host '127.0.0.1'
+# SSH port for capistrano
+port 2222
+# SSH options for capistrano
+ssh_options(:keys => '~/.vagrant.d/insecure_private_key')
+
+# Use node.set, node.default, node.override methods to configure node
+# attributes.
+node.set[:name] = 'localhost-sample'
+
+# specify run list
+run_list ['recipe[hello-world]']
+```
+
+-   setup
+
+        cap deploy:setup servers/server_a.rb [servers/server_b.rb ....]
+
+-   run chef-solo on servers
+
+        cap deploy servers/server_a.rb [servers/server_b.rb ....]
+
+Both commands can specify one or multiple server definition files. If your
+shell support glob (such as bash, zsh, csh), you can run chef-solo on all
+servers using:
+
+    cap deploy servers/*
+
+If you name your servers by some pattern, you also can run on some servers by
+pattern:
+
+    cap deploy servers/db-*.rb
+
+View all available servers through
+
+    cap -T servers
+
+or simply:
+
+    ls servers
+
 ## Overview ##
 
 Besides functionaries provided by
