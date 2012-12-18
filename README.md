@@ -17,15 +17,82 @@ Or use `chef-solo` directly
 
 ## Test using Vagrant ##
 
-Because cookbooks may change system configurations, it is better to test in
-virtual machine, instead of on the local machine directly. `Vagrantfile` is
-already provided in this repository.
+Cookbooks may modify the system, so test them in virtual
+machine. `Vagrantfile` is already provided in this repository, just install
+[VirtualBox](https://www.virtualbox.org/) and setup a virtual machine using
+[vagrant](http://vagrantup.com)
 
     bundle exec vagrant up
     bundle exec vagrant ssh
 
-For Windows, you need to connect to virtual machine using SSH client such as
-PuTTY manually.
+The last command only prints out SSH login information on Windows, use SSH
+client such as PuTTY to connect manually.
+
+## Capistrano ##
+
+Usually the process to use `chef-solo` is
+
+-    Define server attributes using a JSON file
+-    Upload this repository to server
+-    Install cookbooks dependencies
+-    Run `chef-solo` on the server against the JSON file
+
+Capistrano is integrated to automate the process.
+
+-    Define server attributes using ruby DSL, the DSL also define user, host,
+     port and ssh options, so capistrano know how to establish the SSH
+     connection.
+-    Run `cap deploy` to upload repository to server.
+-    Capistrano uses bundler to install dependencies
+-    Capistrano export server ruby DSL definition file into JSON, and run
+     `chef-solo` against the JSON file.
+
+The DSL is very simple, and should be placed under directory `servers`.
+
+```ruby
+# deploy user for capistrano
+user 'vagrant'
+# server IP or domain
+host '127.0.0.1'
+# SSH port for capistrano
+port 2222
+# SSH options for capistrano
+ssh_options(:keys => '~/.vagrant.d/insecure_private_key')
+
+# Use node.set, node.default, node.override methods to configure node
+# attributes.
+node.set[:name] = 'localhost-sample'
+
+# specify run list
+run_list ['recipe[hello-world]']
+```
+
+All `cap` remote commands must specify one or multiple server definition files. For
+example:
+
+-   setup
+
+        cap deploy:setup servers/server_a.rb [servers/server_b.rb ....]
+
+-   upload repository, run bundle, export JSON and run chef-solo on servers
+
+        cap deploy servers/server_a.rb [servers/server_b.rb ....]
+
+Tips: name servers by pattern (using prefix or suffix), and use glob (for
+shell like bash, zsh, csh) to select servers.
+
+    # run on all servers
+    cap deploy servers/*
+    # run on all servers which definition file starting with db-
+    cap deploy servers/db-*.rb
+
+All available servers can be list by
+
+    cap -T servers
+
+or simply:
+
+    ls servers
 
 ## Overview ##
 
