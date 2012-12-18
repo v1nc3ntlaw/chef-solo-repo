@@ -17,24 +17,37 @@ Or use `chef-solo` directly
 
 ## Test using Vagrant ##
 
-Because cookbooks may change system configurations, it is better to test in
-virtual machine, instead of on the local machine directly. `Vagrantfile` is
-already provided in this repository.
+Cookbooks may modify the system, so test them in virtual
+machine. `Vagrantfile` is already provided in this repository, just install
+[VirtualBox](https://www.virtualbox.org/) and setup a virtual machine using
+[vagrant](http://vagrantup.com)
 
     bundle exec vagrant up
     bundle exec vagrant ssh
 
-For Windows, you need to connect to virtual machine using SSH client such as
-PuTTY manually.
+The last command only prints out SSH login information on Windows, use SSH
+client such as PuTTY to connect manually.
 
 ## Capistrano ##
 
-This repository also has integrated capistrano. 
+Usually the process to use `chef-solo` is
 
-The dependencies are managed by bundler, add cookbooks' dependencies to
-Gemfile.
+-    Define server attributes using a JSON file
+-    Upload this repository to server
+-    Install cookbooks dependencies
+-    Run `chef-solo` on the server against the JSON file
 
-Servers are defined in directory `servers` using DEL:
+Capistrano is integrated to automate the process.
+
+-    Define server attributes using ruby DSL, the DSL also define user, host,
+     port and ssh options, so capistrano know how to establish the SSH
+     connection.
+-    Run `cap deploy` to upload repository to server.
+-    Capistrano uses bundler to install dependencies
+-    Capistrano export server ruby DSL definition file into JSON, and run
+     `chef-solo` against the JSON file.
+
+The DSL is very simple, and should be placed under directory `servers`.
 
 ```ruby
 # deploy user for capistrano
@@ -54,26 +67,26 @@ node.set[:name] = 'localhost-sample'
 run_list ['recipe[hello-world]']
 ```
 
+All `cap` remote commands must specify one or multiple server definition files. For
+example:
+
 -   setup
 
         cap deploy:setup servers/server_a.rb [servers/server_b.rb ....]
 
--   run chef-solo on servers
+-   upload repository, run bundle, export JSON and run chef-solo on servers
 
         cap deploy servers/server_a.rb [servers/server_b.rb ....]
 
-Both commands can specify one or multiple server definition files. If your
-shell support glob (such as bash, zsh, csh), you can run chef-solo on all
-servers using:
+Tips: name servers by pattern (using prefix or suffix), and use glob (for
+shell like bash, zsh, csh) to select servers.
 
+    # run on all servers
     cap deploy servers/*
-
-If you name your servers by some pattern, you also can run on some servers by
-pattern:
-
+    # run on all servers which definition file starting with db-
     cap deploy servers/db-*.rb
 
-View all available servers through
+All available servers can be list by
 
     cap -T servers
 
