@@ -11,6 +11,22 @@ Hello world
     bundle install
     bundle exec thor solo:json json/hello-world.json
 
+Or use `chef-solo` directly
+
+    bundle exec chef-solo -c solo.rb -j json/hello-world.json
+
+## Test using Vagrant ##
+
+Because cookbooks may change system configurations, it is better to test in
+virtual machine, instead of on the local machine directly. `Vagrantfile` is
+already provided in this repository.
+
+    bundle exec vagrant up
+    bundle exec vagrant ssh
+
+For Windows, you need to connect to virtual machine using SSH client such as
+PuTTY manually.
+
 ## Overview ##
 
 Besides functionaries provided by
