@@ -77,7 +77,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  chef
+  chef (~> 10.16.2)
   json (~> 1.5.1)
   thor
   vagrant (~> 1.0.5)

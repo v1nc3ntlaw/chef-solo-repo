@@ -67,7 +67,7 @@ Vagrant::Config.run do |config|
     chef.cookbooks_path = "cookbooks"
     chef.roles_path = "roles"
     chef.data_bags_path = "data_bags"
-    chef.add_recipe "hello-world"
+    chef.add_recipe "chef-solo-repo"
 
     # You may also specify custom JSON attributes:
     chef.json = {}
