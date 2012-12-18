@@ -2,4 +2,5 @@
 /.chef/checksums
 /.chef/solo
 /.vagrant
+/json/nodes
 
