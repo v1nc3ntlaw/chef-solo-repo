@@ -1,6 +1,8 @@
 top_dir = File.dirname(File.expand_path(__FILE__))
 
 node_name 'solo'
+cache_type 'BasicFile'
+cache_options :path => File.join(top_dir, '.chef/solo/cache')
 file_cache_path File.join(top_dir, '.chef/solo/cache')
 file_backup_path File.join(top_dir, '.chef/solo/backup')
 cookbook_path File.join(top_dir, 'cookbooks')
