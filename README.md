@@ -4,6 +4,8 @@ chef-solo-repo
 A fork of [chef-repo](https://github.com/opscode/chef-repo) for
 [chef-solo](http://wiki.opscode.com/display/chef/Chef+Solo).
 
+Fork it and add your own cookbooks and server configurations.
+
 ## Get Started ##
 
 Hello world
@@ -123,4 +125,8 @@ server, DO generate a key yourself.
 
 ## Next Steps ##
 
-Read the README file in each of the subdirectories for more information about what goes in those directories.
+Read the README file in each of the subdirectories for more information about
+what goes in those directories.
+
+
+
