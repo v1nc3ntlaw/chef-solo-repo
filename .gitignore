@@ -1,6 +1,9 @@
 .rake_test_cache
 /.chef/checksums
-/.chef/solo
+/.chef/solo/cache
+/.chef/solo/cache/checksums
+/.chef/solo/cache/files
+/.chef/solo/cache/backup
 /.vagrant
 /json/servers
 
