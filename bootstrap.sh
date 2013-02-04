@@ -4,7 +4,7 @@
 # ==================================================
 # Config
 ruby_version='1.9.3-p327'
-gems=(bundler)
+gems=(bundler chef)
 rbenv_user=rbenv
 rbenv_group=rbenv
 

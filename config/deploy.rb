@@ -1,6 +1,6 @@
 require 'bundler/capistrano'
 set :bundle_without, [:deployment]
-set :bundle_flags, '--binstubs --quiet --deployment'
+set :bundle_flags, '--quiet --deployment'
 
 default_run_options[:pty] = true
 
@@ -100,7 +100,7 @@ namespace :chef do
   task :default do
     generate_json
     cmd = ["cd #{current_release}",
-           "bin/chef-solo -c solo.rb -j json/servers/$CAPISTRANO:HOST$.json -l info"].join(' && ')
+           "chef-solo -c #{current_release}/solo.rb -j json/servers/$CAPISTRANO:HOST$.json -l info"].join(' && ')
     run "#{try_sudo} bash -l -c '#{cmd}'"
   end
 end
