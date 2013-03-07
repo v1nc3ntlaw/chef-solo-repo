@@ -2,6 +2,10 @@
 [ "$1" = "-n" ] && DRY_RUN=1
 
 # ==================================================
+# 1. Install rbenv and ruby 1.9.3-p327
+# 2. Install bundler chef gems
+
+# ==================================================
 # Config
 ruby_version='1.9.3-p327'
 gems=(bundler chef)
@@ -92,20 +96,20 @@ info sudo gpasswd -a my_login_id "$rbenv_group"
 step "Create user ${rbenv_user}:${rbenv_group}"
 run groupadd -f "$rbenv_group"
 if ! id "$rbenv_user" &> /dev/null; then
-  run useradd -r -d /usr/local/rbenv -g "$rbenv_group" -M "$rbenv_user"
+  run useradd -r -d /usr/local/rbenv -g "$rbenv_group" -M "$rbenv_user" -s /bin/bash
 fi
 
 step "Install nessesary packages"
 run apt-get update
 run aptitude install -y \
-  openssh-server openjdk-6-jdk \
+  openssh-server \
   build-essential zlib1g-dev \
   libssl-dev openssl \
   libreadline-dev \
   sqlite3 libsqlite3-dev \
   libxslt-dev libxml2-dev \
   curl wget git-core \
-  mysql-client libmysqlclient-dev
+  libmysqlclient-dev
 
 step "Install/Upgrade rbenv in /usr/local/rbenv"
 if [ -d /usr/local/rbenv ]; then
@@ -119,7 +123,7 @@ else
 fi
 info 'generate profile file'
 echo 'export RBENV_ROOT=/usr/local/rbenv' > tmp/rbenv-profile.sh
-echo 'export PATH="$PATH:$RBENV_ROOT/bin"' >> tmp/rbenv-profile.sh
+echo 'export PATH="$RBENV_ROOT/bin:$PATH"' >> tmp/rbenv-profile.sh
 echo 'eval "$(rbenv init -)"' >> tmp/rbenv-profile.sh
 info '== begin of rbenv-profile.sh =='
 cat tmp/rbenv-profile.sh
