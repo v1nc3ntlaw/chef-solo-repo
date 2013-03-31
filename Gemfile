@@ -1,6 +1,11 @@
-source :rubygems
-gem 'chef', '~> 10.16.2'
+source "https://rubygems.org"
+
+gem 'chef', "~> 11.0"
+gem 'knife-github-cookbooks'
 gem 'thor'
-gem 'json', '~> 1.5.1'
-gem 'vagrant', '~> 1.0.5'
-gem 'capistrano'
+gem 'json'
+
+group :development do
+  gem 'capistrano'
+  gem 'vagrant', "~> 1.0.0"
+end
