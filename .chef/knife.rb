@@ -4,10 +4,14 @@ top_dir = File.dirname(dir)
 log_level :info
 log_location STDOUT
 node_name 'solo'
-client_key File.join(dir, 'insecure_client_key.pem')
 cache_type 'BasicFile'
-cache_options :path => File.join(dir, 'checksums')
-cookbook_path [ File.join(top_dir, 'cookbooks') ]
+cache_options :path => File.join(dir,     'solo/checksums')
+file_cache_path        File.join(dir,     'solo/files')
+file_backup_path       File.join(dir,     'solo/backup')
+cookbook_path        [ File.join(top_dir, 'cookbooks') ]
+data_bag_path        [ File.join(top_dir, 'data_bags') ]
+role_path            [ File.join(top_dir, 'roles') ]
+client_key             File.join(dir,     'insecure_client_key.pem')
 
 # configurations for connecting chef-server
 #
