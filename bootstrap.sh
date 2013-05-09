@@ -87,7 +87,7 @@ mkdir -p tmp
 
 step '== NOTICE =='
 info 'After installation, ' \
-  ' please append content of tmp/rbenv-profile.sh to your bashrc or zshrc.' \
+  ' please append content of tmp/rbenv.sh to your bashrc or zshrc.' \
   ' Also comment out `[ -z "$PS1" ] && return` in .bashrc'
 
 info "Add your self to group $rbenv_group so that you can manage rbenv"
@@ -122,27 +122,27 @@ else
   run git clone git://github.com/sstephenson/rbenv.git /usr/local/rbenv
 fi
 info 'generate profile file'
-echo 'export RBENV_ROOT=/usr/local/rbenv' > tmp/rbenv-profile.sh
-echo 'export PATH="$RBENV_ROOT/bin:$PATH"' >> tmp/rbenv-profile.sh
-echo 'eval "$(rbenv init -)"' >> tmp/rbenv-profile.sh
-info '== begin of rbenv-profile.sh =='
-cat tmp/rbenv-profile.sh
-info '== end of rbenv-profile.sh =='
+echo 'export RBENV_ROOT=/usr/local/rbenv'  >  tmp/rbenv.sh
+echo 'export PATH="$RBENV_ROOT/bin:$PATH"' >> tmp/rbenv.sh
+echo 'eval "$(rbenv init -)"'              >> tmp/rbenv.sh
+info '== begin of rbenv.sh =='
+cat tmp/rbenv.sh
+info '== end of rbenv.sh =='
 if [ -d /usr/local/rbenv ]; then
-  info source tmp/rbenv-profile.sh
-  source tmp/rbenv-profile.sh || true
+  info source tmp/rbenv.sh
+  source tmp/rbenv.sh || true
 fi
-run cp -f tmp/rbenv-profile.sh /etc/profile.d
+run cp -f tmp/rbenv.sh /etc/profile.d
 if ! grep 'rbenv init' /etc/skel/.bashrc &> /dev/null; then
-  run 'sed -i "1asource /etc/profile.d/rbenv-profile.sh" /etc/skel/.bashrc'
+  run 'sed -i "1asource /etc/profile.d/rbenv.sh" /etc/skel/.bashrc'
 fi
 run 'touch "/root/.bashrc"'
 if ! grep 'rbenv init' "/root/.bashrc" &> /dev/null; then
-  run 'sed -i "1asource /etc/profile.d/rbenv-profile.sh" /root/.bashrc'
+  run 'sed -i "1asource /etc/profile.d/rbenv.sh" /root/.bashrc'
 fi
 run 'touch "/root/.zshenv"'
 if ! grep 'rbenv init' "/root/.zshenv" &> /dev/null; then
-  run 'cat tmp/rbenv-profile.sh >> "/root/.zshenv"'
+  run 'cat tmp/rbenv.sh >> "/root/.zshenv"'
 fi
 
 step "Install/Upgrade rbenv-vars in /usr/local/rbenv/plugins/rbenv-vars"
