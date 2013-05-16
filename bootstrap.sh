@@ -113,13 +113,13 @@ run aptitude install -y \
 
 step "Install/Upgrade rbenv in /usr/local/rbenv"
 if [ -d /usr/local/rbenv ]; then
-  info 'install rbenv'
+  info 'upgrade rbenv'
   run pushd /usr/local/rbenv
   run git pull
   run popd
 else
-  info 'upgrade rbenv'
-  run git clone git://github.com/sstephenson/rbenv.git /usr/local/rbenv
+  info 'install rbenv'
+  run git clone https://github.com/sstephenson/rbenv.git /usr/local/rbenv
 fi
 info 'generate profile file'
 echo 'export RBENV_ROOT=/usr/local/rbenv'  >  tmp/rbenv.sh
@@ -147,26 +147,26 @@ fi
 
 step "Install/Upgrade rbenv-vars in /usr/local/rbenv/plugins/rbenv-vars"
 if [ -d /usr/local/rbenv/plugins/rbenv-vars ]; then
-  info 'install rbenv-vars'
+  info 'upgrade rbenv-vars'
   pushd /usr/local/rbenv/plugins/rbenv-vars
   run git pull
   popd
 else
-  info 'upgrade rbenv-vars'
+  info 'install rbenv-vars'
   run mkdir -p /usr/local/rbenv/plugins/
-  run git clone git://github.com/sstephenson/rbenv-vars.git /usr/local/rbenv/plugins/rbenv-vars
+  run git clone https://github.com/sstephenson/rbenv-vars.git /usr/local/rbenv/plugins/rbenv-vars
 fi
 
 step "Install/Upgrade ruby-build in /usr/local/rbenv/plugins/ruby-build"
 if [ -d /usr/local/rbenv/plugins/ruby-build ]; then
-  info 'install ruby-build'
+  info 'upgrade ruby-build'
   pushd /usr/local/rbenv/plugins/ruby-build
   run git pull
   popd
 else
-  info 'upgrade ruby-build'
+  info 'install ruby-build'
   run mkdir -p /usr/local/rbenv/plugins/
-  run git clone git://github.com/sstephenson/ruby-build.git /usr/local/rbenv/plugins/ruby-build
+  run git clone https://github.com/sstephenson/ruby-build.git /usr/local/rbenv/plugins/ruby-build
 fi
 
 step "Install ruby $ruby_version"
