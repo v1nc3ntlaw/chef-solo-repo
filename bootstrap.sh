@@ -157,16 +157,19 @@ else
   run git clone https://github.com/sstephenson/rbenv-vars.git /usr/local/rbenv/plugins/rbenv-vars
 fi
 
-step "Install/Upgrade ruby-build in /usr/local/rbenv/plugins/ruby-build"
-if [ -d /usr/local/rbenv/plugins/ruby-build ]; then
+step "Install/Upgrade ruby-build in /tmp/ruby-build"
+if [ -d /tmp/ruby-build ]; then
   info 'upgrade ruby-build'
-  pushd /usr/local/rbenv/plugins/ruby-build
+  pushd /tmp/ruby-build
   run git pull
+  ./install.sh
   popd
 else
   info 'install ruby-build'
-  run mkdir -p /usr/local/rbenv/plugins/
-  run git clone https://github.com/sstephenson/ruby-build.git /usr/local/rbenv/plugins/ruby-build
+  run git clone https://github.com/sstephenson/ruby-build.git /tmp/ruby-build
+  pushd /tmp/ruby-build
+  ./install.sh
+  popd
 fi
 
 step "Install ruby $ruby_version"
