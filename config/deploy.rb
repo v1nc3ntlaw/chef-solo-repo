@@ -1,13 +1,14 @@
 require 'bundler/capistrano'
-set :bundle_without, [:deployment]
+set :bundle_without, [:deployment, :development]
 set :bundle_flags, '--quiet --deployment'
+set :normalize_asset_timestamps, false
 
 default_run_options[:pty] = true
 
 depend :remote, :command, 'ruby'
 
 ssh_options[:forward_agent] = true
-set :application, "agilysys-chef-repo"
+set :application, "chef-repo"
 
 set :scm, :git
 
@@ -23,8 +24,11 @@ set :copy_exclude, ['.git/*', 'vendor/*']
 # set :checkout, 'export'
 # set :deploy_via, :remote_cache
 
+default_environment["RBENV_ROOT"] = "/usr/local/rbenv"
+default_environment["PATH"] = "/usr/local/rbenv/shims:/usr/local/rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 set :branch, 'master'
-set :keep_releases, 2
+set :keep_releases, 3
 set :user, "ubuntu"
 set :use_sudo, true
 
@@ -78,7 +82,7 @@ namespace :deploy do
     top.chef.default
   end
   task :symlink_cache_dir do
-    run ["mkdir -p #{shared_path}/cache",
+    run ["mkdir -p #{shared_path}/cache/checksums #{shared_path}/cache/files #{shared_path}/cache/backup",
          "ln -sfn #{shared_path}/cache #{current_release}/.chef/solo/cache"].join(' && ')
   end
   task :setup_directory_owner do
