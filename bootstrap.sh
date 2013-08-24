@@ -157,6 +157,18 @@ else
   run git clone https://github.com/sstephenson/rbenv-vars.git /usr/local/rbenv/plugins/rbenv-vars
 fi
 
+step "Install/Upgrade rbenv-gem-rehash in /usr/local/rbenv/plugins/rbenv-gem-rehash"
+if [ -d /usr/local/rbenv/plugins/rbenv-gem-rehash ]; then
+  info 'upgrade rbenv-gem-rehash'
+  pushd /usr/local/rbenv/plugins/rbenv-gem-rehash
+  run git pull
+  popd
+else
+  info 'install rbenv-gem-rehash'
+  run mkdir -p /usr/local/rbenv/plugins/
+  run git clone https://github.com/sstephenson/rbenv-gem-rehash.git /usr/local/rbenv/plugins/rbenv-gem-rehash
+fi
+
 step "Install/Upgrade ruby-build in /tmp/ruby-build"
 if [ -d /tmp/ruby-build ]; then
   info 'upgrade ruby-build'
