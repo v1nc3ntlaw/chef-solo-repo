@@ -3,12 +3,13 @@
 
 # ==================================================
 # 1. Install rbenv and ruby 2.0.0-p247
-# 2. Install bundler chef gems
+# 2. Install bundler gem
+# 3. Install chef client
 
 # ==================================================
 # Config
 ruby_version='2.0.0-p247'
-gems=(bundler chef)
+gems=(bundler)
 rbenv_user=rbenv
 rbenv_group=rbenv
 
@@ -204,3 +205,6 @@ step "Setup permission of /usr/local/rbenv"
 run chown -R "$rbenv_user:$rbenv_group" /usr/local/rbenv
 run chmod -R u=rwX,g=rwX,o=rX /usr/local/rbenv
 run 'find /usr/local/rbenv -type d -exec chmod g+s "{}" \;'
+
+step "Install chef client latest version"
+run curl -L https://www.opscode.com/chef/install.sh | bash
