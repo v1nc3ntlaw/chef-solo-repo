@@ -2,12 +2,12 @@
 [ "$1" = "-n" ] && DRY_RUN=1
 
 # ==================================================
-# 1. Install rbenv and ruby 1.9.3-p429
+# 1. Install rbenv and ruby 2.0.0-p247
 # 2. Install bundler chef gems
 
 # ==================================================
 # Config
-ruby_version='1.9.3-p429'
+ruby_version='2.0.0-p247'
 gems=(bundler chef)
 rbenv_user=rbenv
 rbenv_group=rbenv
