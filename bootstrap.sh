@@ -103,14 +103,18 @@ fi
 step "Install nessesary packages"
 run apt-get update
 run aptitude install -y \
-  openssh-server \
+  libgdbm-dev libyaml-dev libffi-dev \
+  libncurses5-dev libtool pkg-config \
+  gawk autoconf automake bison \
+  python-software-properties \
   build-essential zlib1g-dev \
-  libssl-dev openssl \
-  libreadline-dev \
-  sqlite3 libsqlite3-dev \
   libxslt-dev libxml2-dev \
+  sqlite3 libsqlite3-dev \
+  libssl-dev openssl \
   curl wget git-core \
-  libmysqlclient-dev
+  libmysqlclient-dev \
+  libreadline-dev \
+  openssh-server
 
 step "Install/Upgrade rbenv in /usr/local/rbenv"
 if [ -d /usr/local/rbenv ]; then
