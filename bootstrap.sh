@@ -2,13 +2,23 @@
 [ "$1" = "-n" ] && DRY_RUN=1
 
 # ==================================================
-# 1. Install rbenv and ruby 2.0.0-p247
+# Check
+
+if [ ! -f /root/.bootstrapped ]; then
+  echo "Start bootstraping system..."
+else
+  echo "The system is bootstrapped."
+  exit 0
+fi
+
+# ==================================================
+# 1. Install rbenv and ruby 2.0.0-p353
 # 2. Install bundler gem
 # 3. Install chef client
 
 # ==================================================
 # Config
-ruby_version='2.0.0-p247'
+ruby_version='2.0.0-p353'
 gems=(bundler)
 rbenv_user=rbenv
 rbenv_group=rbenv
@@ -212,3 +222,5 @@ run 'find /usr/local/rbenv -type d -exec chmod g+s "{}" \;'
 
 step "Install chef client latest version"
 run curl -L https://www.opscode.com/chef/install.sh | bash
+
+echo "The system is bootstrapped." > /root/.bootstrapped
