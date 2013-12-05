@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem 'chef', "~> 11.6"
+gem 'chef', "~> 11.8"
 gem 'knife-github-cookbooks'
 gem 'thor'
 gem 'json'
